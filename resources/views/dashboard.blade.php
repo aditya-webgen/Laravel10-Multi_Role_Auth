@@ -11,6 +11,8 @@
         <h1>Welcome to the Dashboard</h1>
         <h1>Hi, {{ $user->name }}</h1>
         <p>You are logged in!</p>
+        <p><strong>Last Login:</strong> {{ \Carbon\Carbon::parse($user->last_login_at)->setTimezone('Asia/Kolkata')->format('d-m-Y h:i A') }} </p>
+        <p><strong>Last Login ip:</strong> {{ $user->last_login_ip }}</p>
         <p><strong>Email:</strong> {{ $user->email }}</p>
         <p><strong>Role:</strong> 
             @if ($user->role == 1)
@@ -72,9 +74,10 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @php $i = 1; @endphp
                             @foreach ( $userData as $users)
                                 <tr>
-                                    <th scope="row">1</th>
+                                    <th scope="row">{{ $i++; }}</th>
                                     <td>{{ $users->name }}</td>
                                     <td>{{ $users->email }}</td>
                                     <td> 
@@ -87,7 +90,7 @@
                                         @endif 
                                     </td>
                                     <td>
-                                        <Button class="btn btn-small btn-danger">Delete</Button>
+                                        <a href="{{ route('admin.deleteUser', encrypt($users->id)) }}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this user?')"> Delete </a>
                                     </td>
                                 </tr>
                             @endforeach

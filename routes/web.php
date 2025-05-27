@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -25,7 +27,8 @@ Route::get('logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::prefix('admin')->middleware(['auth', 'role:1,2,3'])->group(function () {
 
-    Route::get('dashboard', [AuthController::class, 'dashboard'])->name('admin.dashboard');
-    Route::post('storeUser', [AuthController::class, 'storeUser'])->name('admin.storeUser');
+    Route::get('dashboard', [AdminDashboardController::class, 'dashboard'])->name('admin.dashboard');
+    Route::post('store-user', [UserController::class, 'storeUser'])->name('admin.storeUser');
+    Route::get('delete-user/{id}', [UserController::class, 'deleteUser'])->name('admin.deleteUser');
 
 });
